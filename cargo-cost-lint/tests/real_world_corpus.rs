@@ -475,9 +475,8 @@ fn real_world_corpus_triage() {
         inventory_output.status.success(),
         "cargo-cost-lint --list-lints failed while validating the corpus guard"
     );
-    let inventory: serde_json::Value =
-        serde_json::from_slice(&inventory_output.stdout)
-            .expect("list-lints output is not valid JSON");
+    let inventory: serde_json::Value = serde_json::from_slice(&inventory_output.stdout)
+        .expect("list-lints output is not valid JSON");
     let registered_lints: std::collections::HashSet<String> = inventory["lints"]
         .as_array()
         .expect("inventory.lints should be an array")

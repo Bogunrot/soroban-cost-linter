@@ -145,9 +145,13 @@ impl<'tcx> LateLintPass<'tcx> for StorageWriteWithoutRead {
         write_visitor.visit_body(body);
 
         for (receiver, key, span) in &write_visitor.writes {
-            let has_prior_read = read_visitor.reads.iter().any(|(read_receiver, read_key, read_span)| {
-                read_receiver == receiver && read_key == key && read_span.lo() < span.lo()
-            });
+            let has_prior_read =
+                read_visitor
+                    .reads
+                    .iter()
+                    .any(|(read_receiver, read_key, read_span)| {
+                        read_receiver == receiver && read_key == key && read_span.lo() < span.lo()
+                    });
             if !has_prior_read {
                 span_lint_and_help(
                     cx,
